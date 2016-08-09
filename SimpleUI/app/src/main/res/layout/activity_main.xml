@@ -29,7 +29,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/radioGroup"
-        android:onClick="click" />
+        android:onClick="click"
+        android:background="@drawable/button" />
 
     <EditText
         android:layout_width="match_parent"
@@ -51,17 +52,23 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Black Tea"
+            android:text=""
             android:id="@+id/blackTeaRadioButton"
             android:checked="false"
-            android:layout_gravity="left" />
+            android:layout_gravity="left"
+            android:drawableRight = "@drawable/blacktea"
+            />
+
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Green Tea"
+            android:text=""
             android:id="@+id/greenTeaRadioButton"
-            android:checked="false" />
+            android:checked="false"
+            android:drawableRight = "@drawable/greentea"
+            />
+
     </RadioGroup>
 
 </RelativeLayout>
