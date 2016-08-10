@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name = "storeInfo">
+        <item>7-11</item>
+        <item>hi-life</item>
+        <item>family mart</item>
+        <item>ok</item>
+        <item>lawson</item>
+    </string-array>
+</resources>
