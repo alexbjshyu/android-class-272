@@ -1,6 +1,8 @@
 package com.example.familyfirst.simpleui;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
+import android.preference.PreferenceManager.OnActivityResultListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    static final int REQUEST_CODE_DRINK_MENU_ACTIVITY = 0;
+
 
     TextView textView;
     EditText editText;
@@ -129,7 +134,21 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent intent = new Intent();
         intent.setClass(this, DrinkMenuActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_DRINK_MENU_ACTIVITY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode,data);
+        if(requestCode == REQUEST_CODE_DRINK_MENU_ACTIVITY)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                String result = data.getStringExtra("result");
+                Toast.makeText(this, result,Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 
     @Override

@@ -1,16 +1,25 @@
 package com.example.familyfirst.simpleui;
 
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrinkMenuActivity extends AppCompatActivity {
+public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDialog.OnFragmentInteractionListener{
 
     ListView drinkMenuListView;
     TextView totalTextView;
@@ -19,6 +28,8 @@ public class DrinkMenuActivity extends AppCompatActivity {
     int[] lPrices = {35,45,55,45};
     int[] mPrices = {25,35,45,35};
     int[] imageIDs = {R.drawable.drink1,R.drawable.drink2,R.drawable.drink3,R.drawable.drink4};
+
+    int total = 0;
 
     List<Drink> drinkList = new ArrayList<>();
 
@@ -31,6 +42,18 @@ public class DrinkMenuActivity extends AppCompatActivity {
 
         drinkMenuListView = (ListView)findViewById(R.id.drinkMenuListView);
         totalTextView = (TextView)findViewById(R.id.totalTextView);
+
+        drinkMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Drink drink = (Drink)parent.getAdapter().getItem(position);
+                //total+=drink.mPrice;
+                //totalTextView.setText(String.valueOf(total));
+                showDrinkOrderDialog(drink);
+            }
+        });
+
+
 
         setupDrinkMenu();
 
@@ -54,6 +77,43 @@ public class DrinkMenuActivity extends AppCompatActivity {
     {
         DrinkAdapter adapter = new DrinkAdapter(this,drinkList);
         drinkMenuListView.setAdapter(adapter);
+    }
+
+    public void done(View view)
+    {
+        Intent intent = new Intent();
+        intent.putExtra("result",String.valueOf(total));
+
+        intent.setClass(this, MainActivity.class);
+        startActivity(intent);
+
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    private void showDrinkOrderDialog(Drink drink)
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+
+        DrinkOrderDialog dialog = DrinkOrderDialog.newInstance(drink);
+
+//        ft.replace(R.id.root,dialog);
+//
+//        ft.commit();
+        dialog.show(ft, "DrinkOrderDialog");
+    }
+
+    public void backToMain(View view)
+    {
+        //Intent intent = new Intent();
+        Context context = getApplicationContext();
+        CharSequence text = "Cancelled";
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context,text,duration);
+        toast.show();
+        finish();
     }
 
     @Override
@@ -92,4 +152,8 @@ public class DrinkMenuActivity extends AppCompatActivity {
         Log.d("DEBUG","DrinkMenuActivity OnRestart");
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
