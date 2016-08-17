@@ -7,21 +7,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
- * Created by familyfirst on 8/10/16.
+ * Created by user on 2016/8/10.
  */
 public class OrderAdapter extends BaseAdapter {
-
 
     List<Order> orders;
     LayoutInflater layoutInflater;
 
-
-    public OrderAdapter(Context context, List<Order> orderList){
+    public OrderAdapter(Context context, List<com.example.familyfirst.simpleui.Order> orderList){
         this.orders = orderList;
         this.layoutInflater = LayoutInflater.from(context);
     }
@@ -43,10 +39,12 @@ public class OrderAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         Holder holder;
+
         if(convertView == null)
         {
-            convertView = layoutInflater.inflate(R.layout.listview_order_item,null);
+            convertView = layoutInflater.inflate(R.layout.listview_order_item, null);
 
             TextView noteTextView = (TextView)convertView.findViewById(R.id.noteTextView);
             TextView storeInfoTextView = (TextView)convertView.findViewById(R.id.storeInfoTextView);
@@ -58,7 +56,6 @@ public class OrderAdapter extends BaseAdapter {
             holder.storeInfoTextView = storeInfoTextView;
             holder.drinkTextView = drinkTextView;
 
-
             convertView.setTag(holder);
         }
         else
@@ -69,15 +66,15 @@ public class OrderAdapter extends BaseAdapter {
         Order order = orders.get(position);
         holder.noteTextView.setText(order.note);
         holder.storeInfoTextView.setText(order.storeInfo);
-        holder.drinkTextView.setText(order.drink);
+        holder.drinkTextView.setText(String.valueOf(order.getTotal()));
 
         return convertView;
     }
 
-    class Holder
-    {
+    class Holder{
         TextView noteTextView;
         TextView storeInfoTextView;
         TextView drinkTextView;
     }
 }
+
